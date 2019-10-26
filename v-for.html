@@ -6,15 +6,7 @@
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     </head>
     <body>
-       <!-- 
-            1.在 v-for 块中，我们可以访问所有父作用域的属性。v-for 还支持一个可选的第二个参数，即当前项的索引。 
-            2.可以用of 代替 in
-            3.维护状态：当 Vue 正在更新使用 v-for 渲染的元素列表时，它默认使用“就地更新”的策略
-            v-for 默认行为试着不改变整体，而是替换元素。迫使其重新排序的元素，你需要提供一个 key 的特殊属性：
-            <div v-for="item in items" :key="item.id">
-            {{ item.text }}
-            </div>
-       -->
+        
         <ul id="app">
             <!-- <li v-for='item in arr'>{{item}}</li><hr>
             <li v-for='(i,index) in msg'>{{i.name}}----{{index}}</li><hr>
