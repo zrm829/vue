@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>具名插槽 缩写</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+ 
+    <div id="app">
+        <slot-component>
+            <template #header>
+                <h1>Here might be a page title</h1>
+            </template>
+            <!-- <p>A paragraph for the main content.</p>
+            <p>And another one.</p> -->
+            <!-- 相当于 现在 <template> 元素中的所有内容都将会被传入相应的插槽。任何没有被包裹在带有 v-slot 的 <template> 中的内容都会被视为默认插槽的内容-->
+            <template v-slot:default>
+                <p>A paragraph for the main content.</p>
+                <p>And another one.</p>
+            </template>
+            <template #footer>
+                <p>Here's some contact info</p>
+            </template>
+        </slot-component>
+        
+    </div>
+    <template id="slot">
+        <div class="container">
+            <header>
+                <slot name="header"></slot>
+            </header>
+            <main>
+                <slot></slot>
+            </main>
+            <footer>
+                <slot name="footer"></slot>
+            </footer>
+        </div>
+    </template>
+    <script>
+        let SlotComponent={
+            data:function(){
+                return{
+                    msg:'hello world'
+                }
+            },
+            template:'#slot'
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                wen:'你好',
+                name:'张如明'
+            },
+            components:{
+             'slot-component':SlotComponent
+            }
+        })
+    </script>
+</body>
+</html>

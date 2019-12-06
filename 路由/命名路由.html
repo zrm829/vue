@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>命名路由</title>
+    <script src="./vue/vue.js"></script>
+    <script src="./vue/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <router-link :to="{name:'user'}">主页</router-link>
+            <router-link :to="{name:'new',params:{id:1}}">新闻</router-link>
+            <router-link to="/tv">电视剧</router-link>
+        </div>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+    <script>
+        routes=[
+            {path:'/home',name:'user',component:{
+                template:'<h1>看主页</h1>'
+            }},
+            {path:'/news/:id',name:'new',component:{
+                template:'<h1>看新闻</h1>'
+            }},
+            {path:'/tv',component:{
+                template:'<h1>看电视</h1>'
+            }}
+        ]
+        router=new VueRouter({
+            routes
+        })
+        new Vue({
+            el:'#app',
+            router
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../vue/vue.js"></script>
+    <title>获取dom</title>
+</head>
+
+<body>
+    <!--
+        1. 使用$refs获取组件元素 
+        2.可以获去子组件中的数据（data），方法（methods）等
+    -->
+    <div id="app">
+        <p ref='myp'>你好</p>
+        <h3 ref='myh'>Hello World</h3>
+        <my-login ref='myc'></my-login>
+    </div>
+    <script>
+        const Login = {
+            data: function () {
+                return {
+                    child: 'hello everyone'
+                }
+            },
+            template: '<h1>大家好</h1>'
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            components: {
+                "my-login": Login
+            },
+            methods: {
+                getDom: function () {
+                    console.log(this.$refs.myp);
+                    console.log(this.$refs.myh);
+                    console.log(this.$refs.myc);
+                    console.log(this.$refs.myc.child);
+                }
+            },
+
+        })
+        vm.getDom();
+    </script>
+</body>
+
+</html>

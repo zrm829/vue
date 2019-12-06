@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>子传父与父传子</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+    <!-- vue组件中，组件之间的传递是单向数据流的。只能是子传父 或父传子 -->
+    <div id="app">
+        <component-p ></component-p>
+    </div>
+    <template id="child">
+        <ul>
+            <li @click='getChildContent' v-for='item in nowmsg'>{{item}}</li>
+        </ul>
+    </template>
+    <template id="parent">
+        <div>
+            <!-- ref绑定一个dom操作 -->
+            <h1 ref='MyTitle'></h1>  
+            <component-c :msg='msg' @change-event='getData'></component-c>
+        </div>
+    </template>
+    <script>
+         let ComponentC={
+            data:function(){
+                return{
+                  
+                }
+            },
+            methods:{
+                getChildContent:function(ev){
+                    // console.log(ev.target.innerHTML);
+                    this.$emit('change-event',ev.target.innerHTML);
+                }
+            },
+            props:{
+                msg:Array
+            },
+            data:function(){
+                return{
+                    nowmsg:this.msg
+                }
+            },
+            
+            template:'#child'
+        }
+        let ComponentP={
+            data:function(){
+                return{
+                    msg:['这是我第一个项目','这是我第二个项目','这是我第三个项目'],
+                }
+            },
+            components:{
+                'component-c':ComponentC
+            },
+            methods:{
+               getData:function(data){
+                    // this.msg=data
+                    // 获取dom元素
+                    this.$refs.MyTitle.innerHTML=data
+               }
+            },
+            template:'#parent'
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+              
+            },
+            components:{
+                'component-p':ComponentP
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>兄弟组件之间传值</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+    <!-- 方法 
+        1.定义一个空实例
+        2.通过$emit 触发事件，传输数据
+        3.通过$on, 在mounted中接收数据
+        mounted:是一个Vue生命周期中的钩子函数，简单点说就类似于jQuery的ready，Vue会在文档加载完毕后调用mounted函数。
+    -->
+    <div id="app">
+        <child-first></child-first>
+        <child-second></child-second>
+    </div>
+    <script>
+
+        let ChildFirst={
+            data:function(){
+                return{
+                    msg1:'我是老大',
+                    msg2:''
+                }
+            },
+            mounted:function(){
+                // vm2.$on('second-data',function(str){
+                //     this.msg2=str
+                // }.bind(this))  //this指向组件
+                // 使用箭头函数
+                vm2.$on('second-data',(str)=>{
+                    this.msg2=str
+                })
+            },
+            template:'<div>{{msg1}} <span>{{msg2}}</span> </div>'
+        }
+        let ChildSecond={
+            data:function(){
+                return{
+                    msg2:'我是老二'
+                }
+            },
+            methods:{
+                putData:function(ev){
+                    vm2.$emit('second-data',this.msg2)
+                }
+            },
+            template:`<div>
+                    {{msg2}}
+                    <button @click='putData'>传值</button>
+            </div>`
+        };
+        let vm2=new Vue();
+        let vm=new Vue({
+            el:'#app',
+            components:{
+                'child-first':ChildFirst,
+                'child-second':ChildSecond
+            }
+        })
+    </script>
+</body>
+</html>

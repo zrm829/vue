@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>元组件</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+        <!-- 渲染一个“元组件”为动态组件。依 is 的值，来决定哪个组件被渲染。
+        is用于动态组件且基于 DOM 内模板的限制来工作。
+        -->
+        <div id="app">
+            <button @click='btn(1)'>One</button>
+            <button @click='btn(2)'>Two</button>
+            <button @click='btn(3)'>Three</button>
+            <component :is='initComponent'></component>
+        </div>
+        <script>
+            let ComponentOne={
+                data:function(){
+                    return{
+                        msg1:'组件一'
+                    }
+                },
+                template:  `
+                    <div>
+                        <span>{{msg1}}</span>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                `  
+            }
+            let ComponentTwo={
+                data:function(){
+                    return{
+                        msg2:'组件二'
+                    }
+                },
+                template:  `
+                    <div>
+                        <span>{{msg2}}</span>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                `  
+
+            }
+            let ComponentThree={
+                data:function(){
+                    return{
+                        msg3:'组件三'
+                    }
+                },
+                template:  `
+                    <div>
+                        <span>{{msg3}}</span>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                `  
+
+            }
+            let vm=new Vue({
+                el:'#app',
+                data:{
+                    initComponent:'component-1'
+                },
+                methods:{
+                   btn:function(index){
+                        this.initComponent='component-'+index
+                        console.log( this.initComponent);
+                   }
+                },
+                components:{
+                    'component-1':ComponentOne,
+                    'component-2':ComponentTwo,
+                    'component-3':ComponentThree
+                },
+               
+            })
+        </script>
+    
+</body>
+</html>

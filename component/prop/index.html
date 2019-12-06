@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>传递静态或动态 Prop</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+        <!-- 所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定：
+        父级 prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外改变父级组件的状态，
+        从而导致你的应用的数据流向难以理解。
+        额外的，每次父级组件发生更新时，子组件中所有的 prop 都将会刷新为最新的值。
+        这意味着你不应该在一个子组件内部改变 prop。如果你这样做了，Vue 会在浏览器的控制台中发出警告。 -->
+    <div id="app">
+           <blog-post :title="title"></blog-post>
+           <blog-post :likes="likes"></blog-post>
+           <!-- 静态传值 -->
+           <blog-post :zrm="829829"></blog-post>
+
+    </div>
+    <template id="one">
+        <div>
+            <h1>{{title}}</h1>
+            <h1>{{n}}</h1>
+            <!-- <h1>{{normalizedTitle]}}</h1> -->
+            <p>{{likes}}</p>
+            <p>{{zrm}}</p>
+        </div>
+    </template>
+    <script>
+        let BlogPost={
+            props: {
+                zrm:Number,
+                title: String,
+                likes: Number,
+                isPublished: Boolean,
+                commentIds: Array,
+                author: Object,
+                callback: Function,
+                contactsPromise: Promise // or any other constructor
+            },
+            // 这个 prop 用来传递一个初始值；这个子组件接下来希望将其作为一个本地的 prop 数据来使用。在这种情况下，最好定义一个本地的 data 属性并将这个 prop 用作其初始值：
+            data:function(){
+                return{
+                    n:this.title
+                }
+            },
+            // 报错
+            computed: {
+                normalizedTitle: function () {
+                    return this.title.trim().toLowerCase()
+                }
+            },
+            template:'#one'
+        };
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                title:'YOU',
+                likes: 1322,
+                isPublished:true,
+                commentIds:[1,2,3,4,5],
+                author:'张如明',
+                callback: function(){
+                    alert('hello world');
+                },
+                contactsPromise: function(){
+                    return new Promise((resolve,reject)=>{
+                        resolve('成功了');
+                    })
+                }
+            },
+            components:{
+               'blog-post':BlogPost
+            }
+        })
+    </script>
+    
+</body>
+</html>

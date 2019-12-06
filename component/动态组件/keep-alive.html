@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>keep-alive</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+        <!-- 当在这些组件之间切换的时候，你有时会想保持这些组件的状态，
+            以避免反复重渲染导致的性能问题。例如我们来展开说一说这个多标签界面：
+        -->
+        <div id="app">
+            <button @click='btn(1)'>One</button>
+            <button @click='btn(2)'>Two</button>
+            <button @click='btn(3)'>Three</button>
+            <keep-alive>
+                <component :is='initComponent'></component>
+            </keep-alive>
+        </div>
+        <script>
+            let ComponentOne={
+                data:function(){
+                    return{
+                        msg1:'组件一'
+                    }
+                },
+                template:  `
+                    <div>
+                        <span>{{msg1}}</span>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                `  
+            }
+            let ComponentTwo={
+                data:function(){
+                    return{
+                        msg2:'组件二'
+                    }
+                },
+                template:  `
+                    <div>
+                        <span>{{msg2}}</span>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                `  
+
+            }
+            let ComponentThree={
+                data:function(){
+                    return{
+                        msg3:'组件三'
+                    }
+                },
+                template:  `
+                    <div>
+                        <span>{{msg3}}</span>
+                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                `  
+
+            }
+            let vm=new Vue({
+                el:'#app',
+                data:{
+                    initComponent:'component-1'
+                },
+                methods:{
+                   btn:function(index){
+                        this.initComponent='component-'+index
+                        console.log( this.initComponent);
+                   }
+                },
+                components:{
+                    'component-1':ComponentOne,
+                    'component-2':ComponentTwo,
+                    'component-3':ComponentThree
+                },
+               
+            })
+        </script>
+    
+</body>
+</html>

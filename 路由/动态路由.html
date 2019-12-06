@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>路由</title>
+    <script src="./vue/vue.js"></script>
+    <script src="./vue/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <router-link to='/home/foo'>foo</router-link>
+        <router-link to='/home/fpp'>fpp</router-link>
+
+        <router-link to='/user/zrm/parm'>zrm</router-link>
+        <router-link to='/user/zsr/parm'>zsr</router-link>
+
+        <router-link to='/news/baby/parm/zyf'>news</router-link>
+        <router-link to='/match'>foo</router-link>
+
+        <div>
+            <router-view></router-view>  
+        </div>
+    </div>
+    <script>
+        // 路由对象
+        // $route.path：字符串，对应当前路由的路径，总是解析为绝对路径
+        // $route.params：一个 key/value 对象，包含了动态片段和全匹配片段，如果没有路由参数，就是一个空对象。
+        // $route.query:表示 URL 查询参数。
+        const UserOne={
+            template:'<div>参数:{{ $route.params}},路径:{{$route.path}} 查询：{{$route.query}} hash:{{$route.hash}}  fullPath:{{$route.fullPath}}</div>'
+        }
+        const UserTwo={
+            template:`
+                <div>
+                    <div>
+                      
+                        <router-link to='/match/matchChild'>match</router-link>
+                    </div>
+                    <div>
+                         <router-view></router-view>
+                    </div>
+                </div>
+            `
+        }
+        const UserTwoChild={
+            template:'<h1>   hello match</h1>'
+        }
+        const routes=[
+            {path:'/home/:id',component:UserOne},
+            {path:'/user/:id/parm',component:UserOne},
+            {path:'/news/:id/parm/:name',component:UserOne},
+            {path:'/match',component:UserTwo,children:[
+                {path:'matchChild',component:UserTwoChild},
+            ]},
+        ]
+        const router=new VueRouter({
+            routes
+        })
+        new Vue({
+            el:'#app',
+            // 定义路由对象
+            router,
+        })
+        // router.push('/');   // Router 就是路由对象，push就是其上边的方法
+    </script>
+</body>
+</html>

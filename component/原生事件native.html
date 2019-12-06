@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>原生事件native</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+        <!-- 想要在一个组件的根元素上直接监听一个原生事件。这时，你可以使用 v-on 的 .native 修饰符： -->
+    <div id="app">
+        <component-b></component-b>
+    </div>
+    <template id="one">
+        <div>
+           <button >点击</button>
+           <button>di</button>
+        </div>
+    </template>
+    <template id="two">
+        <div>
+            <button @click='btn()'>btn</button>
+            <component-a @click.native='btn()'></component-a>
+        </div>
+    </template>
+    <script>
+        let ComponentA={
+            data:function(){
+                return{
+                    count:0
+                }
+            },
+           
+            props:{
+               stu: Array,
+            },
+            template:'#one'
+        }
+        let ComponentB={
+            data:function(){
+                return{
+                   
+                }
+            },
+            methods:{
+               btn:function(){
+                // alter('hello world');
+                alert('hello world');
+                console.log('hello world');
+               }
+            },
+            components:{
+                'component-a':ComponentA
+            },
+            template:'#two',
+           
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+
+            },
+            components:{
+                'component-b':ComponentB,
+            }
+        })
+    </script>
+</body>
+</html>

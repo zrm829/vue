@@ -1,0 +1,56 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+#app nav .clarFloat:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+#app nav .NavContainner {
+  list-style: none;
+  width: 300px;
+  margin: 0 auto;
+}
+#app nav .NavContainner li {
+  width: 60px;
+  height: 30px;
+  text-align: center;
+  font-size: 18px;
+  float: left;
+}
+#app nav .NavContainner .one {
+  color: aqua;
+}
+#app nav .NavContainner .two {
+  color: blueviolet;
+}
+#app nav .NavContainner .three {
+  color: yellow;
+}
+#app nav .NavContainner .four {
+  color: plum;
+}
+#app nav .NavContainner .five {
+  color: red;
+}
+#app div {
+  width: 300px;
+  height: 600px;
+  margin: 0 auto;
+}
+#app .New {
+  background-color: aqua;
+}
+#app .Argumemt {
+  background-color: blueviolet;
+}
+#app .Sport {
+  background-color: yellow;
+}
+#app .Tv {
+  background-color: plum;
+}
+#app .JunDui {
+  background-color: red;
+}

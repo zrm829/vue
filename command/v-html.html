@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>v-html</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+        <!-- 更新元素的 innerHTML 。注意：内容按普通 HTML 插入 - 不会作为 Vue 模板进行编译 。
+        如果试图使用 v-html 组合模板，可以重新考虑是否通过使用组件来替代。 -->
+    <h1>加载HTML指令</h1>
+    <div id="app">
+        <p >{{str}}</p>
+        <p v-html='str'></p>
+    </div>
+    <script>
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                str:"<span style='color:red'>This is a HTML</span>"
+            }
+        })
+    </script>
+</body>
+</html>

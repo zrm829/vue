@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab</title>
+    <script src="../../../vue/vue.js"></script>
+    <link rel="stylesheet" href="./Tab.css">
+</head>
+<body>
+        <!-- 当在这些组件之间切换的时候，你有时会想保持这些组件的状态，
+            以避免反复重渲染导致的性能问题。例如我们来展开说一说这个多标签界面：
+        -->
+        <div id="app">
+            <component-nav > 
+                <keep-alive slot-scope='m'>
+                    <component  :is='m.str'></component>
+                </keep-alive>
+            </component-nav>
+        </div>
+        <template id="nav">
+            <nav>
+                <ul class="NavContainner clarFloat" >
+                    <li  v-for='(value,key) in name' @click='btn(key+1)'>{{value}}</li>
+                </ul>
+                <slot :str='initComponent'></slot>
+            </nav>
+        </template>
+        <script>
+            let ComponentNav={
+                data:function(){
+                    return{
+                        initComponent:'component-1',
+                        name:['新闻','娱乐','体育','电视剧','军事'],
+                    }
+                },
+                methods:{
+                   btn:function(index){
+                        this.initComponent='component-'+index
+                        console.log( this.initComponent);
+                   }
+                },
+                template:'#nav'
+            }
+            let ComponentOne={
+                data:function(){
+                    return{
+                        msg1:'组件一'
+                    }
+                },
+                template: "<div class='New'> {{msg1}} <input type='text'> </div>"
+            }
+            let ComponentTwo={
+                data:function(){
+                    return{
+                        msg2:'组件二'
+                    }
+                },
+                template: "<div class='Argumemt'>{{msg2}} <input type='text'> </div>"
+
+
+            }
+            let ComponentThree={
+                data:function(){
+                    return{
+                        msg3:'组件三'
+                    }
+                },
+                template:" <div class='Sport'> {{msg3}} <input type='text'> </div> "
+            }
+            let ComponentFour={
+                data:function(){
+                    return{
+                        msg4:'组件四'
+                    }
+                },
+                template:" <div class='Tv'>{{msg4}}  <input type='text'> </div> "
+            }
+            let ComponentFive={
+                data:function(){
+                    return{
+                        msg5:'组件五'
+                    }
+                },
+                template:" <div class='JunDui''>{{msg5}} <input type='text'> </div> "
+            }
+            let vm=new Vue({
+                el:'#app',
+                data:{
+                    
+                },
+                components:{
+                    'component-nav':ComponentNav,
+                    'component-1':ComponentOne,
+                    'component-2':ComponentTwo,
+                    'component-3':ComponentThree,
+                    'component-4':ComponentFour,
+                    'component-5':ComponentFive,
+                },
+               
+            })
+        </script>
+    
+</body>
+</html>

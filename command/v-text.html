@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>v-text</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app" >
+        <p v-text='msg'></p>
+        <p style="color: red;">{{msg}}</p>
+    </div>
+
+    <script>
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                msg:'<span>hello world<span/>'
+            }
+        })
+    </script>
+</body>
+</html>

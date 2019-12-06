@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>作用域插槽 v-slot</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <slot-component>
+            <!-- 解构 -->
+            <template v-slot:default='{data,a,b}'> 
+                <h1>{{data}}</h1>
+                <h1>{{a}}</h1>
+                <!-- 注意默认插槽的缩写语法不能和具名插槽混用，因为它会导致作用域不明确： -->
+                <!-- <template v-slot:m='msg2' >
+                    <h1>{{msg2.data}}</h1>
+                </template> -->
+            </template>
+            <!-- 不带参数的 v-slot 被假定对应默认插槽： -->
+            <!-- <template v-slot='msg' >
+                <h1>{{msg.data}}</h1>
+            </template> -->
+
+            <!-- 只要出现多个插槽，请始终为所有的插槽使用完整的基于 <template> 的语法： -->
+            <template v-slot:m='msg' >
+                <h1>{{msg.data}}</h1>
+            </template>
+        </slot-component>
+        <!-- 也可以这么写 -->
+        <!-- <slot-component v-slot:default='msg'>
+                <h1>{{msg.data}}</h1>
+        </slot-component> -->
+    </div>
+    <template id="slot">
+        <div class="container">
+            <header>
+                <slot :data='msg' a='1' b='666'></slot>
+                <slot :data='msg2' name='m'></slot>
+            </header>
+        </div>
+    </template>
+    <script>
+        let SlotComponent={
+            data:function(){
+                return{
+                    msg:'hello world',
+                    msg2:'你好'
+                }
+            },
+            template:'#slot'
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                wen:'你好',
+                name:'张如明'
+            },
+            components:{
+             'slot-component':SlotComponent
+            }
+        })
+    </script>
+</body>
+</html>

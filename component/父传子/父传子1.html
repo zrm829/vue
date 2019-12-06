@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>父作用域将数据传到子组件</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+            <my-component :msg='msg1'></my-component>
+    </div>
+    <template id="mc">
+        <div>
+            <ul>
+                <!-- <li v-for='item in msg2'>{{item}}</li> -->
+                  <!-- <li v-for='item in msg1'>{{item}}</li>  不能直接访问父组件中的数据-->
+                <li v-for='item in msg'>{{item}}</li>
+            </ul>
+        </div>
+    </template>
+    <script>
+        let MyComponent={
+            data:function(){
+                return{
+                    msg2:['子第一个项目','子第二个项目','子第三个项目']
+                }
+            },
+            props:['msg'],
+            template:'#mc'
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                msg1:['父第一个项目','父第二个项目','父第三个项目']
+            },
+            components:{
+               'my-component':MyComponent,
+            }
+        })
+    </script>
+</body>
+</html>

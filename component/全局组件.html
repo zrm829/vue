@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>第一个组件(全局组件)</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+        
+    <div id="app1">
+        <my-first-component></my-first-component><hr>
+        <my-first-component></my-first-component><hr>
+        <my-first-component></my-first-component> 
+    </div>
+    <!-- <div id="app2">
+        //组件是可复用的
+        <my-first-component></my-first-component>
+        <my-first-component></my-first-component>   
+        <my-first-component></my-first-component>
+    </div> -->
+     <!-- 模板里面有且只有一个根元素 -->
+    <template id='tem'>
+        <div>
+            <button @click='btn'>点我</button>
+            <p>这是我第{{count}}组件 </p>
+        <div>
+    </template>
+    <script>
+        // 因为组件是可复用的 Vue 实例，所以它们与 new Vue 接收相同的选项，
+        // 例如 data、computed、watch、methods 以及生命周期钩子等。仅有的例外是像 el 这样根实例特有的选项。
+        // 组件命名形式两种:my-first-component,MyFirstComponent
+        // 全局注册的组件可以用在其被注册之后的任何 (通过 new Vue) 新创建的 Vue 根实例，也包括其组件树中的所有子组件的模板中。
+        
+        Vue.component('my-first-component',{
+            // 一个组件的 data 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝：
+            data:function(){
+                return{
+                    count:'0'
+                }
+            },
+            methods:{
+                btn:function(){
+                    this.count++
+                }
+            },
+            template: '#tem',
+        })
+        // 生成组件后必须挂载一个元素上
+        let vm1=new Vue({
+            el:"#app1",
+        })
+        // let vm2=new Vue({
+        //     el:'#app2'
+        // })
+    </script>
+</body>
+</html>

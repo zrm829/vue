@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>slot-scope</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <slot-component>
+                <!-- slot-scope 的值可以接收任何有效的可以出现在函数定义的参数位置上的 JavaScript 表达式。
+                这意味着在支持的环境下 (单文件组件或现代浏览器)，你也可以在表达式中使用 ES2015 解构，如 -->
+            <template slot="m" slot-scope='data'>
+                <li>{{data}}</li>
+                <li>{{data.a}}</li>
+                <li>{{data.b}}</li>
+                <li>{{data.msg}}</li>
+            </template>
+            <!-- 对象解构 -->
+            <!-- <template slot="m" slot-scope='{a,b,msg}'>
+                <li>{{msg}}</li>
+                <li>{{a}}</li>
+                <li>{{b}}</li>
+            </template> -->
+            <h1>15165</h1>
+            <h1 slot='f' slot-scope='data'>{{data.a}}</h1>
+        </slot-component>
+    </div>
+    <template id="slot">
+        <ul>
+            <slot a='123' b='dsd' :msg='msg' value='1545' name='m'></slot>
+            <slot name='f' a='6556'></slot>
+            <!-- //默认插槽，捕获所有未被匹配的内容 -->
+            <slot></slot>  
+        </ul>
+    </template>
+    <script>
+        let SlotComponent={
+            data:function(){
+                return{
+                    msg:{
+                        name:'张如明',
+                        sex:'男',
+                        age:48
+                    },
+                }
+            },
+            template:'#slot'
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                wen:'你好',
+                name:'张如明'
+            },
+            components:{
+             'slot-component':SlotComponent
+            }
+        })
+    </script>
+</body>
+</html>

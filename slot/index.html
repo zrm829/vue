@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>slot 插槽</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 用slot向子组件传值，如果 <navigation-link> 没有包含一个 <slot> 元素，则该组件起始标签和结束标签之间的任何内容都会被抛弃。 -->
+        <slot-component url='1.html'>
+            <!-- 报错 url 没有被定义 父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。 -->
+            Clicking here will send you to:{{url}} 
+            
+            <h1 slot='one'>{{wen}}</h1>
+            <h1 slot='two'>{{name}}</h1>
+        </slot-component>
+    </div>
+    <template id="slot">
+        <div>
+            <slot></slot>
+            <slot name='one'></slot>
+            <p>{{msg}}</p>
+            <slot name='two'></slot>
+        </div>
+    </template>
+    <script>
+        let SlotComponent={
+            data:function(){
+                return{
+                    msg:'hello world'
+                }
+            },
+            template:'#slot'
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                wen:'你好',
+                name:'张如明'
+            },
+            components:{
+             'slot-component':SlotComponent
+            }
+        })
+    </script>
+</body>
+</html>

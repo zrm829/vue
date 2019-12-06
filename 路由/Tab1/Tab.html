@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab</title>
+    <script src="../vue/vue.js"></script>
+    <script src="../vue/vue-router.js"></script>
+    <link rel="stylesheet" href="./Tab.css">
+</head>
+<body>
+        <div id="app">
+            <component-nav></component-nav>
+        </div>
+        <template id="nav">
+            <nav>
+                <ul class="NavContainner clarFloat" >
+                    <li><router-link to='/new'>新闻</router-link></li>
+                    <li><router-link to='/argus'>娱乐</router-link></li>
+                    <li><router-link to='/sport'>体育</router-link></li>
+                    <li><router-link to='/tv'>电视剧</router-link></li>
+                    <li><router-link to='/arim'>军事</router-link></li>
+                </ul>
+                <div>
+                    <router-view></router-view>
+                </div>
+            </nav>
+        </template>
+        <script>
+            let ComponentNav={
+                template:'#nav'
+            }
+            let ComponentOne={
+                data:function(){
+                    return{
+                        msg1:'组件一'
+                    }
+                },
+                template: "<div class='New'> {{msg1}} <input type='text'> </div>"
+            }
+            let ComponentTwo={
+                data:function(){
+                    return{
+                        msg2:'组件二'
+                    }
+                },
+                template: "<div class='Argumemt'>{{msg2}} <input type='text'> </div>"
+            }
+            let ComponentThree={
+                data:function(){
+                    return{
+                        msg3:'组件三'
+                    }
+                },
+                template:" <div class='Sport'> {{msg3}} <input type='text'> </div> "
+            }
+            let ComponentFour={
+                data:function(){
+                    return{
+                        msg4:'组件四'
+                    }
+                },
+                template:" <div class='Tv'>{{msg4}}  <input type='text'> </div> "
+            }
+            let ComponentFive={
+                data:function(){
+                    return{
+                        msg5:'组件五'
+                    }
+                },
+                template:" <div class='JunDui''>{{msg5}} <input type='text'> </div> "
+            }
+            let vm=new Vue({
+                el:'#app',
+                router:new VueRouter({
+                    // base: '/history',
+                    // // mode:'/history',
+                    routes:[
+                        {path:'/new',component:ComponentOne},
+                        {path:'/argus',component:ComponentTwo},
+                        {path:'/sport',component:ComponentThree},
+                        {path:'/tv',component:ComponentFour},
+                        {path:'/arim',component:ComponentFive},
+                    ]
+                }),
+                components:{
+                   'component-nav':ComponentNav
+                },
+                beforeCreate(){
+                    this.$router.push('/new');
+                }
+               
+            })
+        </script>
+    
+</body>
+</html>

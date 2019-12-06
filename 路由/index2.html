@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>路由</title>
+    <script src="./vue/vue.js"></script>
+    <script src="./vue/vue-router.js"></script>
+</head>
+<body>
+    <!-- 使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+    <!-- 路由重定向
+        this.$router,push('路径');
+    -->
+    <div id="app">
+        <p>
+            <router-link to='/home'>home</router-link>
+            <router-link to='/news'>news</router-link>
+            <router-link to='/hot'>hot</router-link>
+        </p>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
+    <script>
+        // 存放所有路由
+        const ComponentOne={
+            template:'<h1>HELLO WORLD</h1>'
+        }
+        const ComponentTwo={
+            template:'<h1>This is news</h1>'
+        }
+        const ComponentThree={
+            template:'<h1>This is hot</h1>'
+        }
+        const routes=[
+            {path:'/home',component:ComponentOne},
+            {path:'/news',component:ComponentTwo},
+            {path:'/hot',component:ComponentThree}
+        ]
+        // 实例化一个路由对象，并定义router中的配置参数
+        const router=new VueRouter({
+            routes,             //E6中key值和value相等，可以省略一个
+        })
+        new Vue({
+            el:'#app',
+            // 定义路由对象
+            router,
+        })
+        router.push('/home');   // Router 就是路由对象，push就是其上边的方法
+    </script>
+</body>
+</html>

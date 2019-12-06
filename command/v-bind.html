@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind</title>
+    <script src="../vue/vue.js"></script>
+    <style>
+        .one{
+            color: blue;
+        }
+        .two{
+           font-size: 28px;
+        }
+        .three{
+           font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+        <!--动态参数 <a v-bind:[attributeName]="url"> ... </a> 
+        动态参数表达式有一些语法约束，因为某些字符，如空格和引号，放在 HTML attribute 名里是无效的。例如：
+        这会触发一个编译警告
+        <a v-bind:['foo' + bar]="value"> ...
+            在 DOM 中使用模板时 (直接在一个 HTML 文件里撰写模板)，还需要避免使用大写字符来命名键名，因为浏览器会把 attribute 名全部强制转为小写： </a>
+        -->
+    <h1>指令可以用于响应式地更新 HTML 特性：</h1>
+    <div id="app">
+        <a v-bind:href='url':title='title'>W3c</a><br>
+        <!-- <a v-bind:href=""></a>  动态特姓名-->
+        <a :[attributename]='url'>W3c</a>
+        <!-- 内敛字符拼接 -->
+        <img :src="'https://goss4.cfp.cn/creative/vcg/800/new/'+srcURL" alt="" style="width:50px;height:50px">
+        <hr>
+        <!-- class绑定 -->
+        <h1>class绑定</h1>
+        <div>
+            <!-- 对象语法 -->
+            <p :class="{one:isActive}">class存在</p>
+            <p :class="{one:notActive}">class不存在</p>
+             <!-- 渲染的结果和上面一样。我们也可以在这里绑定一个返回对象的计算属性。这是一个常用且强大的模式： -->
+             <p :class="classActive">计算属性</p>
+            <!-- 数组语法 -->
+            <p :class="[classone,classtwo]">多个class</p>
+            <p :class="classAll">多个class</p>
+            <!-- 可以用三元表达式： -->
+            <p :class="[isActive?classone:classtwo]">三元表达式</p>
+            <!-- 用在组件上
+            当在一个自定义组件上使用 class 属性时，这些 class 将被添加到该组件的根元素上面。这个元素上已经存在的 class 不会被覆盖。
+            -->
+            <my-first-component class="one"></my-first-component>
+        </div><hr>
+       
+        <!-- 绑定内敛样式 -->
+        <div>
+            <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">绑定内敛样式</div>
+            <!-- 对象 -->
+            <div v-bind:style="styleObject"></div>
+            <!-- 数组 -->
+            <!-- 从 2.3.0 起你可以为 style 绑定中的属性提供一个包含多个值的数组，常用于提供多个带前缀的值，例如： -->
+            <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></div>
+        </div>
+    </div>
+    <script>
+        Vue.component('my-first-component',{
+            template: '<p class="three">这是我第一组件</p>',
+        })
+        let vm=new Vue({
+            el:'#app',
+            data:{
+               url:'https://www.w3school.com.cn/tags/att_input_disabled.asp',
+               title:'hello word',
+               attributename:'href',
+               srcURL:'VCG211178479315.jpg',
+               isActive:true,
+               error: null,
+               notActive:false,
+            //    Active:{
+            //         isActive:true,
+            //         notActive:false,
+            //    },
+               classone:'one',
+               classtwo:'two',
+               classAll:['one','two'],
+               activeColor: 'red',
+               fontSize: 30,
+               styleObject: {
+                    color: 'red',
+                    fontSize: '13px'
+                }
+            },
+            computed:{
+                classActive:function(){
+                    return {
+                        one:this.isActive&&!this.error,
+                        two:this.error&&this.error.type === 'fatal'
+                    }
+                }
+            }
+        })
+       
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+@colorOne:aqua;
+@colorTwo:blueviolet;
+@colorThree:yellow;
+@colorFour:plum;
+@colorFive:red;
+*{
+    padding: 0;
+    margin: 0;
+}
+#app{
+    nav{
+        .clarFloat:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .NavContainner{
+            list-style: none;
+            width: 300px;
+            margin: 0 auto;
+            li{
+                width: 60px;
+                height: 30px;
+                text-align: center;
+                font-size: 18px;
+                float: left;
+            }
+            .one{
+                color: aqua;
+            }
+            .two{
+                color: blueviolet;
+            }
+            .three{
+                color: yellow;
+            }
+            .four{
+                color: plum;
+            }
+            .five{
+                color: red;
+            }
+        }
+      
+    }
+    div{
+        width: 300px;
+        height: 600px;
+        margin: 0 auto;
+    }
+    .New{
+        background-color:@colorOne;
+    }
+    .Argumemt{
+        background-color:@colorTwo;
+    }
+    .Sport{
+        background-color:@colorThree;
+    }
+    .Tv{
+        background-color:@colorFour;
+    }
+    .JunDui{
+        background-color:@colorFive;
+    }
+}

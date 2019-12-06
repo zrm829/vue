@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>slot 插槽</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <slot-component>
+            save
+        </slot-component>
+    </div>
+    <template id="slot">
+        <div>
+            <button>
+                <!-- 提供默认值，如果传过默认值则替换他 -->
+               <slot>submit</slot>  
+            </button>
+        </div>
+    </template>
+    <script>
+        let SlotComponent={
+            data:function(){
+                return{
+                    msg:'hello world'
+                }
+            },
+            template:'#slot'
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:{
+                wen:'你好',
+                name:'张如明'
+            },
+            components:{
+             'slot-component':SlotComponent
+            }
+        })
+    </script>
+</body>
+</html>

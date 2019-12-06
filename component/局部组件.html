@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>局部组件</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <component-a></component-a>
+        <component-b></component-b>
+    </div>
+    <script>
+        let ComponentA={
+            template:"<p style='color:red'>我是局部组件A</p>"
+        };
+        // let ComponentB={
+        //     template:"<p style='color:yellow'>我是局部组件B</p>"
+        // };
+        // 注意局部注册的组件在其子组件中不可用。
+        // 例如，如果你希望 ComponentA 在 ComponentB 中可用，则你需要这样写：
+        let ComponentB={
+            components:{
+                'component-a': ComponentA,
+            },
+            template:"<component-a></component-a>",
+        };
+        // 生成组件后必须挂载一个元素上
+        let vm1=new Vue({
+            el:"#app1",
+            // 局部组件
+            components:{
+                'component-a': ComponentA,
+                'component-b':ComponentB,
+            }
+        })
+    </script>
+</body>
+</html>

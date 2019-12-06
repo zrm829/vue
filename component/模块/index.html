@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>模块化组件</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+            <ComponentA></ComponentA>
+    </div>
+    <script type="module">
+        import ComponentA from "./ComponentA.js";
+        export default{
+                components:{
+                    ComponentA,
+                },
+            };
+    </script>
+    <script>
+         let vm=new Vue({
+            el:'#app',
+        })
+    </script>
+</body>
+</html>

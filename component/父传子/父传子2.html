@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>prop类型</title>
+    <script src="../../vue/vue.js"></script>
+</head>
+<body>
+    <!-- props指定类型有 -->
+        <!-- props: {
+            title: String,
+            likes: Number,
+            isPublished: Boolean,
+            commentIds: Array,
+            author: Object,
+            callback: Function,
+            contactsPromise: Promise // or any other constructor
+          } -->
+    <div id="app">
+        <component-b></component-b>
+    </div>
+    <template id="one">
+        <div>
+            <table border=1>
+                <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>sex</td>
+                </tr>
+                <tr v-for='item in stu'>
+                    <td>{{item.name}}</td>
+                    <td>{{item.age}}</td>
+                    <td>{{item.sex}}</td>
+                </tr>
+            </table>
+        </div>
+    </template>
+    <template id="two">
+        <div>
+            <component-a :stu='student' for></component-a>
+        </div>
+    </template>
+    <script>
+        let ComponentA={
+            data:function(){
+                return{
+                    count:0
+                }
+            },
+            methods:{
+                time:function(){
+                    count++;
+                }
+            },
+            props:{
+               stu: Array,
+            },
+            template:'#one'
+        }
+        let ComponentB={
+            data:function(){
+                return{
+                    student:[
+                        {
+                            name:'zhang',
+                            age:18,
+                            sex:'男'
+                        },
+                        {
+                            name:'huang',
+                            age:28,
+                            sex:'女'
+                        }
+                    ]
+                }
+            },
+            components:{
+                'component-a':ComponentA
+            },
+            template:'#two',
+           
+        }
+        let vm=new Vue({
+            el:'#app',
+            data:function(){
+                return{
+                   
+                }
+            },
+            
+            components:{
+                'component-b':ComponentB,
+            }
+        })
+    </script>
+</body>
+</html>
