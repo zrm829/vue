@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索框</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header style="margin-bottom:30px">
+            <label for="id">ID:</label>
+            <input type="text" v-model='id' id="id">
+            <label for="name">Name:</label>
+            <input type="text" v-model='name' id='name'>
+            <label for="time">Time:</label>
+            <input type="text" v-model='time' id="time">
+            <button @click='add'>添加</button>
+            <label for="search">搜索：</label>
+            <input type="text" id="search" v-model='keyWorld'>
+        </header>
+        <section>
+            <table border="1">
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>time</th>
+                    <th>oprect</th>
+                </tr>
+                <tr v-for='item in search(keyWorld)' :key='item.id'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.time | dateFormat}}</td>
+                    <td>
+                        <a href="" @click.prevent='del(item.id)'>删除</a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </div>
+    <script>
+        Vue.filter('dateFormat',function(timeStr){
+            var ds=new Date(timeStr);
+            var y=ds.getFullYear();
+            var m=(ds.getMonth()+1).toString().padStart(2,'0');   //月从0开始
+            var d=ds.getDay().toString().padStart(2,'0');
+            var hh=ds.getHours().toString().padStart(2,'0');
+            var mm=ds.getMinutes().toString().padStart(2,'0');
+            var ss=ds.getSeconds().toString().padStart(2,'0');
+            // return y+'-'+m+'-'+d;
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;   //ES6模板字符串
+        })
+        var vm=new Vue({
+            el:'#app',
+            data:{
+                id:'',
+                name:'',
+                time:'',
+                keyWorld:'',
+                car:[
+                    {id:1,name:'奔驰',time:new Date()},
+                    {id:2,name:'奥迪',time:new Date()},
+                    {id:3,name:'保时捷',time:new Date()},
+                ]
+            },
+            methods:{
+                add(){
+                    var Car= {id:this.id,name:this.name,time:new Date()};
+                    this.car.push(Car);
+                    this.id=null;
+                    this.name=null;
+                    this.time=null;
+                },
+                del(itemId){
+                    this.car.some((item,i)=>{
+                        if(itemId==item.id){
+                            this.car.splice(i,1);
+                            return true;
+                        }
+                    })
+                },
+                search(keyWorld){
+                    var newCar=[];
+                    // this.car.forEach((item)=>{
+                    //     if(item.name.indexOf(keyWorld)!=-1){
+                    //         newCar.push(item);
+                    //     }
+                    // })
+                    newCar=this.car.filter((item)=>{
+                        // if(keyWorld!=''){
+                        //      return keyWorld==item.name;
+                        // }else{
+                        //     return item;
+                        // }
+                        if(item.name.includes(keyWorld)){
+                            return item;
+                        }
+                    })
+                    return newCar;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

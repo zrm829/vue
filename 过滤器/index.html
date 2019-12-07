@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤器</title>
+    <script src="../vue/vue.js"></script>
+</head>
+
+<body>
+    <!-- 过滤器的介绍
+        1、在Vue中使用过滤器（Filters）来渲染数据是一种很有趣的方式。
+        2、首先我们要知道，Vue中的过滤器不能替代Vue中的methods、computed或者watch，
+        3、过滤器不改变真正的data，而只是改变渲染的结果，并返回过滤后的版本。
+        4、在很多不同的情况下，过滤器都是有用的，比如尽可能保持API响应的干净，并在前端处理数据的格式。
+        5、在你希望避免重复和连接的情况下，它们也可以有效地封装成可重用代码块背后的所有逻辑。
+        6、在Vue 2.0中已经没有内置的过滤器了，我们可以自定义过滤器。2.0之前有。在这里有一个旧的内置过滤器的完整列表 -->
+    <div id="app">
+        <!-- {{msg | globleFormat}} -->
+        <!-- 也可以动态的直接传值 -->
+        {{msg | globleFormat('讨厌') | secondFormet}}
+    </div>
+    <script>
+        // 全局过滤器 Vue.filter('过滤器名称',function('第一个参数必须是管道符前面传过来的参数'，one,two...)
+        Vue.filter('globleFormat', function (msg,parm) {
+            // replace() 方法用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+            // 如果 regexp 具有全局标志 g，那么 replace() 方法将替换所有匹配的子串。否则，它只替换第一个匹配子串。
+            return msg.replace(/喜欢/g, parm);
+        })
+
+        // 可以调用多个过滤器
+        Vue.filter('secondFormet',function(msg){
+            return msg.replace(msg, msg+'======');
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '我喜欢你，非常喜欢你，真的喜欢你',
+            },
+            // 本地（私有、局部）过滤器，会被优先调用
+            filters: {
+                globleFormat: function (msg,parm) {
+                    return msg.replace(/喜欢/g, parm);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
