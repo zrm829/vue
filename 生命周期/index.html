@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期</title>
+    <script src="../vue/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="msg='no'">点击</button>
+        <p id="my">{{msg}}</p>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                msg:'ok'
+            },
+            methods:{
+                getData(){
+                    console.log(this.msg);
+                }
+            },
+            beforeCreate(){
+                console.log(this.msg);   //undefined
+                // this.getData(); 报错
+            },
+            created(){
+                console.log(this.msg);  //123
+                this.getData();  //123
+            },
+            beforeMount(){
+                var my=document.querySelector('#my');
+                console.log(my);          //此时data数据还没有被替换过来
+            },
+            mounted(){
+                var my=document.querySelector('#my');
+                console.log(my);   //此时data中的数据已经被替换过来了
+            },
+            beforeUpdate(){
+                var my=document.querySelector('#my');
+                console.log(my.innerHTML);     //此时浏览器页面中的数据还是旧的,但是此时内存DOM中的数据已经被改变了
+            },
+            updated(){
+                var my=document.querySelector('#my');
+                console.log(my.innerHTML);   
+            },
+            beforeDestroy(){},
+            destroyed(){}
+        })
+    </script>
+</body>
+</html>

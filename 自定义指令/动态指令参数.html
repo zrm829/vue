@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态指令参数</title>
+    <script src="../vue/vue.js"></script>
+</head>
+
+<body>
+    <!-- 但如果场景是我们需要把元素固定在左侧而不是顶部又该怎么办呢？
+    这时使用动态参数就可以非常方便地根据每个组件实例来进行更新。 -->
+    <div id="dynamicexample">
+        <h3>Scroll down inside this section ↓</h3>
+        <p v-pin:[direction]="200">I am pinned onto the page at 200px to the left.</p>
+    </div>
+    <script>
+        Vue.directive('pin', {
+            bind: function (el, binding, vnode) {
+                el.style.position = 'fixed'
+                var s = (binding.arg == 'right' ? 'right' : 'top')
+                el.style[s] = binding.value + 'px'
+            }
+        })
+        new Vue({
+            el: '#dynamicexample',
+            data: function () {
+                return {
+                    direction: 'right'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
