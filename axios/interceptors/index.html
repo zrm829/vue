@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>interceptors(拦截器)</title>
+    <script src="../../vue/axios.min.js"></script>
+</head>
+
+<body>
+    <!-- 拦截器分为请求拦截器和响应拦截器
+    请求拦截器：请求拦截器的作用是在请求发送前进行一些操作，例如在每个请求体里加上token，统一做了处理如果以后要改也非常容易。
+    响应拦截器：的作用是在接收到响应后进行一些操作，例如在服务器返回登录状态失效，需要重新登录的时候，跳转到登录页。
+    原理：主要应用Promise调用链
+    应用：主要应用发送多个请求，用于封装请求前和响应前的共同处理的操作 
+    注意：请求拦截器先写后先调用；响应拦截器先写先调用
+    -->
+    <script>
+        // 请求拦截器（发送请求前调用）
+        //应用：改变请求数据的格式
+        axios.interceptors.request.use(config => {
+            // Do something before request is sent
+            console.log('this is first interceptors request');
+            // 设置以 form 表单的形式提交参数，如果以 JSON 的形式提交表单，可忽略
+            if (config.method === 'post') {
+                // JSON 转换为 FormData
+                const formData = new FormData();
+                Object.keys(config.data).forEach(key => formData.append(key, config.data[key]))
+                config.data = formData
+            }
+            return config;  //必须被返回,因为是链式结构
+        }, error => {
+            // Do something with request error
+            return Promise.reject(error);
+        });
+        axios.interceptors.request.use(config => {
+            // Do something before request is sent
+            console.log('this is second interceptors request');
+            return config;
+        }, error => {
+            // Do something with request error
+            return Promise.reject(error);
+        });
+        // 响应拦截器（响应前执行）
+        axios.interceptors.response.use(response => {
+            // Do something before response is sent
+            console.log('this is first interceptors response');
+            return response;   //必须被返回
+        }, error => {
+            // Do something with response error
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(response => {
+            // Do something before response is sent
+            console.log('this is second interceptors response');
+            return response;
+        }, error => {
+            // Do something with response error
+            return Promise.reject(error);
+        });
+
+        axios({
+            method: 'get',
+            url: 'http://localhost:3000/posts',
+            params: {
+                id: 1
+            }
+        }).then(response => {
+            console.log('get请求',response.data);
+        }, error => {
+            console.log(error.message)
+        })
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000/posts',
+            data: {
+                "title": "json-server3",
+                "author": "typicode3",
+            }
+        }).then(response => {
+            console.log('post请求',response.data);
+        }, error => {
+            console.log(error.message)
+        })
+    </script>
+</body>
+
+</html>

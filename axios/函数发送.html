@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通过axios函数发送请求</title>
+    <script src="../vue/axios.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <button onclick="testGet()">GET请求</button>
+        <button onclick="testPost()">POST请求</button>
+        <button onclick="testPut()">PUT请求</button>
+        <button onclick="testDelete()">DELETE请求</button>
+    </div>
+    <script>
+        // 通过传递相关配置发送axios请求
+
+        //添加默认请求根路径
+        axios.defaults.baseURL = 'http://localhost:3001';
+        // GET请求
+        function testGet() {
+            axios({
+                // url: '/posts/1',
+                url: '/posts',
+                method: "GET",
+                // `params` are the URL parameters to be sent with the request
+                // Must be a plain object or a URLSearchParams object
+                // 这里params,其实就是query参数 http://localhost:3001？id=1
+                params: {
+                    id: 1,
+                },
+            }).then(response => {                     //返回请求到的数据
+                console.log('get请求的数据', response.data)
+            })
+        }
+
+        //POST 请求 添加数据
+        function testPost() {
+            axios({
+                url: '/posts',
+                method:"POST",
+                // `data` is the data to be sent as the request body
+                // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
+                // data传递数据有两种格式，一是json，另一种是urlencode格式
+                data:{
+                    "title": "json-server3", 
+                    "author": "typicode3"
+                }
+                // data: 'Country=Brasil&City=Belo Horizonte',
+            }).then(response => {                 //返回添加的数据
+                    console.log('post添加数据', response.data)
+                }).catch(error => {
+                    console.log(error);
+                })
+        }
+        //PUT 请求 更新数据
+        function testPut() {
+            axios({
+                url: '/posts/3',
+                method:"PUT",
+                // `data` is the data to be sent as the request body
+                // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
+                // data传递数据有两种格式，一是json，另一种是urlencode格式
+                data:{
+                    "title": "json-server3++", 
+                    "author": "typicode3++"
+                }
+            }).then(response => {   //返回更新的数据
+                    console.log('put更新数据', response.data);
+                }).catch(error => {
+                    console.log(error);
+                });
+        }
+        //DELETE 请求 删除数据
+        function testDelete() {
+            axios({
+                url: '/posts/3',
+                method:"DELETE",
+            }).then(response => {
+                    console.log('delete删除数据', response.data);
+                }).catch(error => {
+                    console.log(error);
+                });
+        }
+    </script>
+</body>
+
+</html>

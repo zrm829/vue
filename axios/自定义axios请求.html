@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通过axios函数发送请求</title>
+    <!-- <script src="../vue/axios.min.js"></script> -->
+</head>
+
+<body>
+    <div>
+        <button onclick="testGet()">GET请求</button>
+        <button onclick="testPost()">POST请求</button>
+        <button onclick="testPut()">PUT请求</button>
+        <button onclick="testDelete()">DELETE请求</button>
+    </div>
+    <script>
+        // GET请求
+        function testGet() {
+            axios({
+                url: 'http://localhost:3001/posts',
+                method: "GET",
+                // params: {
+                //     id: 1,
+                // },
+            }).then(response => {                     //返回请求到的数据
+                console.log('get请求的数据', response.data)
+            })
+        }
+
+        //POST 请求 添加数据
+        function testPost() {
+            axios({
+                url: 'http://localhost:3001/posts',
+                method: "POST",
+                // `data` is the data to be sent as the request body
+                // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
+                // data传递数据有两种格式，一是json，另一种是urlencode格式
+                data: {
+                    "title": "json-server3",
+                    "author": "typicode3"
+                }
+                // data: 'Country=Brasil&City=Belo Horizonte',
+            }).then(response => {                 //返回添加的数据
+                console.log('post添加数据', response.data)
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+        //PUT 请求 更新数据
+        function testPut() {
+            axios({
+                url: 'http://localhost:3001/posts/3',
+                method: "PUT",
+                // `data` is the data to be sent as the request body
+                // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
+                // data传递数据有两种格式，一是json，另一种是urlencode格式
+                data: {
+                    "title": "json-server3++",
+                    "author": "typicode3++"
+                }
+            }).then(response => {   //返回更新的数据
+                console.log('put更新数据', response.data);
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+        //DELETE 请求 删除数据
+        function testDelete() {
+            axios({
+                url: 'http://localhost:3001/posts/3',
+                method: "DELETE",
+            }).then(response => {
+                console.log('delete删除数据', response.data);
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+
+        function axios({
+            url,
+            method = "GET",
+            params={},
+            data={},
+        }) {
+            return new Promise((resolve,reject)=>{
+                method=method.toUpperCase();
+                let querryString='';
+                // 实例化一个XHR对象
+                Object.keys(params).forEach(key => {
+                    querryString=`${key}=${params[key]}&` 
+                });
+                if(querryString){
+                    querryString=querryString.substring(0,querryString.length-1);
+                    if(url.includes("?")){
+                        url=+'&'+querryString;
+                    }else{
+                        url=+'?'+querryString;
+                    }
+                }
+                var request = new XMLHttpRequest();
+                // 指定发送路径和方式
+                request.open(method, url, true);
+                // 发送
+                if(method==="GET"){
+                    request.send();
+                }else if(method==="POST"){
+                    // 告诉请求体数据是json格式，但是有的后台不支持json格式，只支持urlencoding格式
+                    request.setRequestHeader('Content-Type','application/json','charset=UTF-8');
+                    request.send(JSON.stringify(data));
+                }
+
+                // 回调函数
+                request.onreadystatechange=function(){
+                    if(request.readyState!=4){
+                        return;
+                    }
+                    const {status,statusText}=request
+                    if(status>=200&&status<=299){
+                        const response={
+                            data:JSON.parse(request.response),
+                            status,
+                            statusText,
+                        }
+                        resolve(response);
+                    }else{
+                        reject(new Error("失败"));
+                    }
+                }
+            })
+
+
+        }
+    </script>
+</body>
+
+</html>

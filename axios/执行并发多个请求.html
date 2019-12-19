@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>执行并发多个请求</title>
+    <script src="../vue/axios.min.js"></script>
+</head>
+
+<body>
+    <script>
+        function getUserAccount() {
+            return axios.get('http://localhost:4000/parms');
+        }
+
+        function getUserPermissions() {
+            return axios.get('http://localhost:4000/xxxx?id=1');
+        }
+
+        axios.all([getUserAccount(),getUserPermissions()])
+            .then(axios.spread(function (acct, perms) {
+                // 两个请求现在都执行完成
+            }));
+    </script>
+
+</body>
+
+</html>

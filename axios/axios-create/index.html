@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios二次封装</title>
+    <script src="../../vue/axios.min.js"></script>
+</head>
+<body>
+    <!-- axios.create(config) -->
+    <!-- axios对ajax实现第一次封装，
+    axios.create创建一个axios的实例实行了二次封装 -->
+
+    <!-- 应用：当同一个路径访问多个服务器时（端口号不同），由于他们每次传入的参数不同，
+    直接使用axios实现比较困难，由此使用axios的二次封装 -->
+    <script>
+        axios.defaults.baseURL="http://localhost:4000";
+        axios({
+            url:'/posts',
+            parms:{
+                id:2
+            }
+        })
+        var instance=axios.create({
+          baseURL:'http://localhost:3000' 
+        })
+        // instance的用法和axios的部分用法都一样（参数可能不一样）
+        instance({
+            url:'/posts',
+            parms:{
+                id:1
+            }
+        })
+        // 也可以使用instance.get()/post()等等
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应用</title>
+    <script src="../../vue/axios.min.js"></script>
+</head>
+
+<body>
+    <button onclick="getProduct1()">获取列表1</button>
+    <button onclick="getProduct2()">获取列表2</button>
+    <button onclick="cancelReg()">取消请求</button>
+
+    <script>
+        let cancel;
+        // 请求拦截器
+        axios.interceptors.request.use(config => {
+            if (typeof cancel === 'function') {
+                cancel('取消请求啦');
+            }
+            // 此时必须由config添加 cancelToken属性,不然传入的参数config中已经给cancel赋值了
+            config.cancelToken = new axios.CancelToken((c) => {  //c用于取消导当前请求的函数
+                //cancle用于保存当前取消请求的函数,用于之后取消使用
+                cancel = c;
+            })
+            return config;
+        }, error => {
+            return Promise.reject(error);
+        });
+
+        //响应拦截器
+        axios.interceptors.response.use(response => {
+            cancel = null;  //此时请求已经完成，cancel已经没有存在的必要
+            return response;
+        },error => {
+            if (axios.isCancel(error)) {
+                // 此时里面没有cancel=null,
+                // 因为当调用cancel()的取消是异步的，当取消上一请求时如果设为null
+                // 则会覆盖当前请求已经获取的cancel值
+                console.log(error.message, error);
+                return new Promise(()=>{}); //中断promise链，中断请求
+            }else{
+                cancel = null;
+                return Promise.reject(error);  //将错误向下传递
+            }
+        });
+        function getProduct1() {
+            axios({
+                method: 'get',
+                url: 'http://localhost:3000/posts',
+                params: {
+                    id: 1
+                },
+
+            }).then(response => {
+                console.log('请求一完成');
+
+            }, error => {
+                console.log('请求1失败了', error);
+            })
+        }
+        function getProduct2() {
+            axios({
+                method: 'get',
+                url: 'http://localhost:3000/posts',
+                params: {
+                    id: 2
+                },
+            }).then(response => {
+                console.log('请求2完成');
+            }, error => {
+                console.log('请求2失败了', error);
+            })
+        }
+        function cancelReg() {
+            if (typeof cancel === 'function') {
+                cancel('取消请求啦');
+            }
+        }
+    </script>
+</body>
+
+</html>

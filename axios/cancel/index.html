@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>取消请求</title>
+    <script src="../../vue/axios.min.js"></script>
+</head>
+
+<body>
+    <!-- 基本流程：
+    1.配置cancelToken对象
+    2.缓存用于取消请求到cancel函数
+    3.在后面特定时机调用cancel函数取消请求
+    4.在错误回调中判断是error还是cancel -->
+
+    <button onclick="getProduct1()">获取列表1</button>
+    <button onclick="getProduct2()">获取列表2</button>
+    <button onclick="cancelReg()">取消请求</button>
+
+    <script>
+
+        let cancel;
+        function getProduct1() {
+            axios({
+                method: 'get',
+                url: 'http://localhost:3000/posts',
+                params: {
+                    id: 1
+                },
+                cancelToken: new axios.CancelToken((c)=>{  //c用于取消导当前请求的函数
+                    //cancle用于保存当前取消请求的函数,用于之后取消使用
+                    cancel=c;
+                })
+            }).then(response => {
+                console.log('请求一完成');
+                cancel=null;  //此时请求已经完成，cancel已经没有存在的必要
+            }, error => {   
+                console.log('请求1失败了',error.message,error);
+                cancel=null;
+            })
+        }
+        function getProduct2() {
+            axios({
+                method: 'get',
+                url: 'http://localhost:3000/posts',
+                params: {
+                    id: 2
+                },
+                cancelToken: new axios.CancelToken((c)=>{  //c用于取消导当前请求的函数
+                    //cancle用于保存当前取消请求的函数,用于之后取消使用
+                    cancel=c;
+                })
+            }).then(response=>{
+                console.log('请求二完成');
+                cancel=null;
+            },error=>{
+                console.log(error.message);
+                cancel=null;
+            })
+        }
+        function cancelReg() {
+            cancel('取消请求啦');
+        }
+    </script>
+</body>
+
+</html>

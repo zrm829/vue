@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通过axios对象发送请求（语法糖）</title>
+    <script src="../vue/axios.min.js"></script>
+</head>
+<body>
+    <div>
+        <button onclick="testGet()">GET请求</button>
+        <button onclick="testPost()">POST请求</button>
+        <button onclick="testPut()">PUT请求</button>
+        <button onclick="testDelete()">DELETE请求</button>
+    </div>
+    <script>
+        // GET请求
+        function testGet(){
+            // axios.get('http://localhost:3000/posts')
+            // axios.get('http://localhost:3000/posts?id=1') 
+            axios.get('http://localhost:3000/posts/1')
+            .then(response=>{                     //返回请求到的数据
+                console.log('get请求的数据',response.data)
+            })
+        }
+
+        //POST 请求 添加数据
+        function testPost(){
+            axios.post('http://localhost:3000/posts', {"title": "json-server3", "author": "typicode3" })
+            .then(response=>{                 //返回添加的数据
+                console.log('post添加数据',response.data)
+            }).catch(error=>{
+                console.log(error);
+            })
+        }
+        //PUT 请求 更新数据
+        function testPut(){
+            axios.put('http://localhost:3000/posts/3',{"title": "json-server3++", "author": "typicode3++" })
+            .then(response=>{   //返回更新的数据
+                console.log('put更新数据',response.data);
+            }).catch(error=>{
+                console.log(error);
+            });
+        }
+        //DELETE 请求 删除数据
+        function testDelete(){
+            axios.delete('http://localhost:3000/posts/3',{"title": "json-server3++", "author": "typicode3++" })
+            .then(response=>{
+                console.log('delete删除数据',response.data);
+            }).catch(error=>{
+                console.log(error);
+            });
+        }
+    </script>
+</body>
+</html>
