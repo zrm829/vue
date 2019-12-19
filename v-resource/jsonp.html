@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>post请求</title>
+    <script src="../vue/vue.min.js"></script>
+    <script src="../vue/vue-resource.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        请输入关键字：<input type="text" v-model="keyword" @keyup="sendJsonP(keyword)">
+        <ul>
+            <li v-for="r in result">{{r}}</li>
+        </ul>
+    </div>
+    <script>
+
+        window.onload = function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    keyword: '',
+                    result: ''
+                },
+                methods: {
+                    sendJsonP(keyword) {
+                        let url = 'https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web';
+                        this.$http.jsonp(url, {
+                            params: {
+                                wd: keyword
+                            },
+                            jsonp: 'cb',       //jsonp默认是callback,百度缩写成了cb，所以需要指定下                     }
+                        }).then(res => {
+                            if (res.data.g) {
+                                this.result = res.data.g.map(x => x['q']);
+                            } else {
+                                this.result = [];
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

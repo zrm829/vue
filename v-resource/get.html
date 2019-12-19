@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get请求</title>
+    <script src="../vue/vue.min.js"></script>
+    <script src="../vue/vue-resource.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="点我异步获取数据" @click='get'>
+    </div>
+    <script>
+        var vm=new Vue({
+            el:'#app',
+            methods:{
+                get(){
+                    // 如果需要传递数据，可以使用 this.$http.get('get.php',{params : jsonData}) 格式，第二个参数 jsonData 就是传到后端的数据。
+                    this.$http.get('./data/Student.json').then((result)=>{
+                        console.log(result);
+                        console.log(result.body.message);
+                        var data=JSON.stringify(result.body,null,4);
+                        console.log(data);
+                        var data2=JSON.parse(data);
+                        console.log(data2);
+                    },(error)=>{
+                        console.log('请求失败');
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

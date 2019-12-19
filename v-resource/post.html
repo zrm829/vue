@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>post请求</title>
+    <script src="../vue/vue.min.js"></script>
+    <script src="../vue/vue-resource.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="点我异步获取数据" @click='get'>
+    </div>
+    <script>
+        // post 发送数据到后端，需要第三个参数 { emulateJSON: true } 。
+
+        // emulateJSON 的作用： 如果Web服务器无法处理编码为 application / json 的请求，你可以启用 emulateJSON 选项。
+        var vm = new Vue({
+            el: '#app',
+            methods: {
+                get() {
+                    // 如果Web服务器无法处理编码为 application/json 的请求，你可以启用 emulateJSON 选项。
+                    // 手动发起的post请求，默认没有表单格式，所以有的服务器处理不了
+                    // 设置请求体的类型为application/x-www-form-urlencoded
+                    {emulateJSON:true}
+                    this.$http.post('./data/dome.php',{"name":"zrm","sex":"man"},{emulateJSON:true}).then((result) => {
+                        console.log(result.body);
+                       
+                    }, (error) => {
+                        console.log('请求失败');
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
